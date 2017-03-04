@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 sudo: required
 dist: trusty
 
@@ -19,3 +20,25 @@ before_script:
 script:
   - npm run test-single-run
   - (npm start > /dev/null &) && (npm run protractor)
+=======
+dist: trusty
+sudo: required
+language: node_js
+node_js:
+  - "5"
+os:
+  - linux
+env:
+  global:
+    - DBUS_SESSION_BUS_ADDRESS=/dev/null
+    - DISPLAY=:99.0
+    - CHROME_BIN=chromium-browser
+before_script:
+  - sh -e /etc/init.d/xvfb start
+install:
+  - npm install
+script:
+  - npm run lint
+  - npm run test:once
+  - npm run e2e
+>>>>>>> bcdd75b0714370cc9dbd00320b7c7c16ec0b9425
