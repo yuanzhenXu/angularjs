@@ -4,7 +4,11 @@
     <div class="form-group">
       <label for="name">Name</label>
       <input type="text" class="form-control" id="name" required
-      [(ngModel)]="model.name" name="name">
+      [(ngModel)]="model.name" name="name" #name="ngModel">
+      <div [hidden]="name.valid || name.pristine" class="alert alter-danger">
+        Name is required
+      </div>
+      <br>TODO:remove this : {{spy.className}}
       TODO:remove this: {{model.name}}
     </div>
     <div class="form-group">
@@ -16,9 +20,11 @@
     <div class="for-group">
         <label for="power">Hero Power</label>
         <select name="" id="power" class="form-control" required>
-          <option [value]="pow" *ngFor="let pow of powers"></option>
+          <option [value]="pow" *ngFor="let pow of powers">{{pow}}</option>
         </select>
       </div>
-   <button class="btn btn-success">Sumbit</button>
+   <button class="btn btn-success" [disabled]="!heroForm.form.valid">Sumbit</button>
   </form>
 </div>
+<button type="button" class="btn btn-default" (click)="newHero();heroForm.reset()">New Hero</button>
+<form (ngSubmit)="onSubmit()" #heroForm="ngForm">
