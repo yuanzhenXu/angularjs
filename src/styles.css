@@ -1,8 +1,22 @@
 h1 {
-  color: aqua;
+  color: #369;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
   border-bottom: 3px;
   flex: auto;
-
+}
+h2,h3{
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+body {
+  margin: 2em;
+}
+body,input[text],button{
+  color: #888;
+  font-family: "Comic Sans MS";
+}
+*{
+  font-family: Arial, Helvetica, sans-serif;
 }

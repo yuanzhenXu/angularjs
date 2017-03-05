@@ -1,15 +1,31 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import { Hero } from './hero';
+import {ActivatedRoute, Params} from "@angular/router";
 @Component({
+  moduleId: module.id,
   selector: 'my-hero-detail',
-  template: '<div *ngIf="hero">' +
-  '<h2>{{hero.name}} details !</h2>' +
-  '<div><label for="">id:</label>{{hero.id}}</div>' +
-  '<div>' +
-  '<llabel>name:</llabel>' +
-  '<input type="text" [(ngModel)]="hero.name" placeholder="name"/></div></div>'
+  templateUrl: './hero-detail.component.html',
+
 })
-export class HeroDetailComponent{
+export class HeroDetailComponent implements OnInit{
   @Input()
   hero: Hero;
+  ngOnInit(): void{
+    this.route.params.swithMap((params: Params) => this.heroService.getHeroes(+params['id']))
+      .subscribe(hero => this.hero=hero);
+  }
+  goBack():void{
+    this.location.back();
+  }
+  save(): void {
+    this.heroService.update(this.hero).then(()=>this.goBack());
+  }
+  constructor(
+    private heroService: HeroService,
+  private route: ActivatedRoute,
+  private location: Location
+){}
+
 }
+
+
