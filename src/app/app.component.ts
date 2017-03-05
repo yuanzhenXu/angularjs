@@ -1,42 +1,22 @@
-import {Component} from '@angular/core';
-export class Hero {
-  id: number;
-  name: string;
-}
-const HEROES: Hero[] = [
-  {id:11, name: 'Mr.Nice'},
-  {id:12, name: 'Natco'},
-  {id:13, name: 'Bombasto'},
-  {id:14, name: 'Celeritas'},
-  {id:15, name: 'Magneta'},
-  {id:16, name: 'RubberMan'},
-  {id:17, name: 'Dynama'},
-  {id:18, name: 'Dr Iq'},
-  {id:19, name: 'Magma'},
-  {id:20, name: 'Tornado'},
-];
+import {Component, OnInit} from '@angular/core';
+import { Hero } from './hero';
+import { HeroService } from './hero.service';
+import construct = Reflect.construct;
 
 @Component({
   selector: 'my-app',
   template: `
     <h1>{{title}}</h1>
-    <h2> My favorite hero is : {{myHero}} </h2>
-    <div *ngIf="selectedHero">
-    <h2> {{selectedHero.name}} details!</h2>
-    <div><label for="">id:</label>{{selectedHero.id}}
-    <label for="">name:</label>
-    <input type="text" [(ngModel)]="selectedHero.name"placeholder="name">
-    </div>
-    </div>
-    <p>Heroes:</p>
-    <ul>
+    <h2> My Heroes </h2>
+   
+    <ul class="heroes">
        <li *ngFor="let hero of heroes" [class.selected] = "hero === selectedHero"
 (click)="onSelect(hero)">
        <span class="badge">{{hero.id}}</span>
        {{ hero.name }}
        </li>
     </ul>
-    <p *ngIf="heroes.length > 3">There are many heroes!</p>
+    <my-hero-details [hero]="selectedHero"></my-hero-details>
     
     `,
   styles: [`
@@ -87,14 +67,25 @@ const HEROES: Hero[] = [
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
-`]
-})
+`],
+  providers: [HeroService]
+  // constructor(private heroService:HeroService)
 
-export class AppComponent {
+})
+export class AppComponent implements OnInit {
   title = 'Tour of heroes';
-  heroes = HEROES;
+  heroes :Hero[];
   selectedHero: Hero;
+  constructor(private heroService: HeroService){
+  }
+  getHeroes(): void {
+    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+  }
   onSelect(hero: Hero): void{
     this.selectedHero = hero;
   }
+  ngOnInit(): void{
+    this.getHeroes();
+  }
 }
+
